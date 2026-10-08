@@ -1,0 +1,21 @@
+# Local run: docker compose up --build   then open http://localhost:8000
+# Uses a local Qdrant server unless QDRANT_URL in .env points at Qdrant Cloud.
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant-data:/qdrant/storage
+volumes:
+  qdrant-data:

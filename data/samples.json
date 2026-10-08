@@ -1,0 +1,38 @@
+[
+  {
+    "id": "db-disk-full",
+    "label": "Orders DB rejecting writes (SEV1, needs approval)",
+    "ticket": "URGENT: order placement failing for all customers since 09:40. The orders service logs show database write errors. Reads still work, customers can see old orders but cannot place new ones. We decommissioned the old reporting replica last week.",
+    "logs": "2026-09-21 09:41:02 UTC [18231] ERROR:  could not extend file \"base/16384/24576\": No space left on device\n2026-09-21 09:41:02 UTC [18231] HINT:  Check free disk space.\n2026-09-21 09:41:05 UTC [18244] ERROR:  could not write to file \"pg_wal/xlogtemp.18244\": No space left on device\nalertmanager: DiskUsageHigh orders-db-01 /var/lib/postgresql 97%"
+  },
+  {
+    "id": "cert-warning",
+    "label": "Auth certificate expiring in 9 days (low risk, auto-approved)",
+    "ticket": "Certificate monitor warning: the TLS certificate for login.example.internal (auth-service) expires in 9 days. No user impact yet. cert-manager shows the Certificate as not ready.",
+    "logs": "cert-monitor: WARN login.example.internal expires 2026-09-30T00:00:00Z (9 days)\nkubectl get certificate -n identity\nNAME          READY   SECRET        AGE\nlogin-tls     False   login-tls     301d"
+  },
+  {
+    "id": "pods-oom",
+    "label": "Payments pods restarting (OOMKilled)",
+    "ticket": "payments-api pods keep restarting since the marketing campaign started at 18:00. Intermittent 503s at checkout. Traffic is about 3x normal.",
+    "logs": "payments-api-7f9c8d-x2k1l   0/1   CrashLoopBackOff   7   22m\nLast State: Terminated  Reason: OOMKilled  Exit Code: 137\ningress-nginx: upstream prematurely closed connection, 503"
+  },
+  {
+    "id": "jwt-rotation",
+    "label": "Users logged out after key rotation",
+    "ticket": "Since the signing key rotation this morning, many users are logged out right after signing in and APIs return 401. Not all users are affected.",
+    "logs": "auth-service WARN token validation failed: kid not found in JWKS (kid=2026-09-key-b)\nauth-service WARN token validation failed: invalid signature"
+  },
+  {
+    "id": "kafka-lag",
+    "label": "Order status not updating (Kafka lag)",
+    "ticket": "Order tracking page shows stale status. The orders consumer group lag has been growing for 30 minutes. Consumers keep rebalancing.",
+    "logs": "orders-consumer WARN Offset commit failed on partition orders-7: rebalance in progress\norders-consumer INFO (Re-)joining group orders-status\nkafka-exporter: consumer lag orders-status 48211"
+  },
+  {
+    "id": "dns-timeouts",
+    "label": "Intermittent DNS timeouts across services",
+    "ticket": "Several services report intermittent failures calling each other. Errors appear across payments, checkout and auth at the same time. CoreDNS CPU is high.",
+    "logs": "checkout-web ERROR getaddrinfo EAI_AGAIN payments-api.payments.svc.cluster.local\nauth-service ERROR dial tcp: lookup redis.identity.svc.cluster.local: i/o timeout"
+  }
+]

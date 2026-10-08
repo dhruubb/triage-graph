@@ -1,0 +1,132 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[left=0.5in,right=0.5in,top=0.36in,bottom=0.36in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+% Clean copy/paste of text for ATS parsers
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\linespread{1.0}\selectfont
+
+% No words split across lines
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=2em
+
+% Section formatting
+\titleformat{\section}{\large\scshape}{}{0em}{}[\vspace{2pt}\hrule]
+\titlespacing{\section}{0pt}{5pt}{5pt}
+\setlist[itemize]{leftmargin=26pt,itemsep=1.2pt,topsep=2pt,parsep=0pt,label=\textbullet}
+
+\newcommand{\entrygap}{\vspace{4pt}}
+\newcommand{\sep}{\unskip\hspace{0.5em}$|$\hspace{0.5em}\ignorespaces}
+
+% Entry heading: left text, right-aligned date (plain text, no tables, for ATS)
+\newlength{\entryindent}\setlength{\entryindent}{10pt}
+\newcommand{\entry}[2]{\hspace*{\entryindent}#1\hfill #2\par}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HEADER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+    {\Huge\textbf{Dhruv Ingale}}\\[5pt]
+    \small
+    Pune / Mumbai, India \sep
+    +91 94208 70505 \sep
+    \href{mailto:dhruvingale07@gmail.com}{dhruvingale07@gmail.com} \sep
+    \href{https://linkedin.com/in/dhruv-ingale-42637b322}{LinkedIn} \sep
+    \href{https://github.com/dhruubb}{GitHub} \sep
+    \href{https://bydhruv.vercel.app/}{Portfolio}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EDUCATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Education}
+\entry{\textbf{Sardar Patel Institute of Technology (S.P.I.T.), Mumbai}}{Aug 2023 -- May 2027}
+\entry{Bachelor of Technology (B.Tech) in Computer Engineering}{CGPA: 7.49}
+\vspace{3pt}
+\entry{\textbf{Indian Institute of Technology (IIT) Patna} \sep Minor in Business Analytics}{2024 -- 2027}
+\vspace{3pt}
+\hspace*{\entryindent}\textbf{Relevant Coursework:} Data Structures \& Algorithms, Operating Systems, DBMS, Computer Networks, Object-Oriented Programming\par
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SKILLS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Technical Skills}
+\begin{itemize}[leftmargin=10pt,label={},itemsep=3pt,topsep=2pt]
+\item \textbf{Languages:} Java, Python, C++, C, SQL, TypeScript / JavaScript
+\item \textbf{Backend \& Systems:} REST APIs, FastAPI, Node.js, Express, Apache Kafka, Redis, WebSocket, JWT Auth, Event-Driven Architecture
+\item \textbf{Databases \& Data:} PostgreSQL, SQLite, MongoDB, Supabase, Data Modelling, Pandas, NumPy
+\item \textbf{Platform \& Tools:} Docker, Azure, Git, CI/CD (GitHub Actions), pytest, Postman, Load Testing
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EXPERIENCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Experience}
+
+\entry{\textbf{Software Engineering Intern} \sep \textit{STL Digital Limited, Mumbai}}{Dec 2025 -- Feb 2026}
+\begin{itemize}
+    \item Built the \textbf{REST API} layer (\texttt{/generate}, \texttt{/search}, \texttt{/health}) for a search service on \textbf{Azure} inside a five-person delivery team, with request validation and centralised error handling at the boundary.
+    \item Connected the service to \textbf{Azure API Management} for routing and access control ahead of release, holding API contracts steady with the teammates owning vector storage, deployment and monitoring.
+    \item Load-tested against \textbf{200+ operational queries}, tracing failures to root cause through logs and closing the edge cases that broke response consistency under live traffic.
+\end{itemize}
+\entrygap
+\entry{\textbf{AI/ML Intern} \sep \textit{BizKonnect Solutions Pvt. Ltd.}}{Jan 2026 -- Feb 2026}
+\begin{itemize}
+    \item Wrote a modular \textbf{Python} retrieval backend, keeping data prep, chunking, embedding and prompt handling as separate components, indexed in \textbf{FAISS} with MMR re-ranking.
+    \item Tuned retrieval against a hand-built test set, landing \textbf{87\% faithfulness} and \textbf{89\% answer relevancy}; fine-tuned a \textbf{BERT} classifier and turned \textbf{20+ annual reports} into a validated dataset.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROJECTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Projects}
+
+\entry{\textbf{Pay-Up} -- Payment Switch \& Settlement Ledger \sep \textit{Python, FastAPI, Kafka, Redis, Docker}}{Jun 2026}
+\begin{itemize}
+    \item Designed a UPI-style payment switch replicating the PSP $\rightarrow$ NPCI $\rightarrow$ bank flow on \textbf{double-entry ledger} accounting, clearing \textbf{atomic transactions across 10,000+ payments} with zero inconsistent writes.
+    \item Enforced \textbf{idempotent settlement} through idempotency keys: \textbf{2,000 duplicate requests rejected} and zero double settlements across \textbf{11,000 payments}.
+    \item Moved settlement notifications onto \textbf{Kafka} asynchronously, keeping them off the transaction write path, and containerised the stack with \textbf{Docker} for repeatable deploys.
+\end{itemize}
+\entrygap
+\entry{\textbf{Vaulter} -- Deal Intelligence API \sep \textit{Node.js, Express, TypeScript, PostgreSQL, WebSocket}}{Sep 2026}
+\begin{itemize}
+    \item Shipped a REST backend in \textbf{Node.js/Express (TypeScript)} over a normalised \textbf{PostgreSQL} schema, holding foreign-key integrity across users, deals, notes and watchlists.
+    \item Sustained \textbf{1,200+ requests/sec at 45 ms p95} and pushed live deal updates over a \textbf{WebSocket} channel to \textbf{500+ concurrent subscribers}.
+    \item Secured access with \textbf{JWT auth}, schema-based request validation and centralised error handling; packaged the service with \textbf{Docker}.
+\end{itemize}
+\entrygap
+\entry{\textbf{KaptainX} -- Multi-Tenant Trade Matching Platform \sep \textit{FastAPI, PostgreSQL, Supabase, n8n}}{Aug 2026}
+\begin{itemize}
+    \item Isolated tenants with \textbf{row-level security} on a multi-tenant \textbf{Supabase/PostgreSQL} schema, enforcing separation in the database rather than in application code.
+    \item Modelled a two-way \textbf{matching engine} that fills one buyer request from several suppliers at once and ranks partial fills by risk.
+    \item Parsed messy trade-lead emails (HTML tables, spreadsheets, plain text) across \textbf{seven languages} into structured records, checked against fixed rules before publication; covered by \textbf{608 pytest tests} at \textbf{84\% coverage}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LEADERSHIP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Positions of Responsibility}
+
+\entry{\textbf{Head of Creatives} \sep \textit{Entrepreneurship Cell (E-Cell) \& Sports Committee, S.P.I.T.}}{Aug 2024 -- Jul 2025}
+\begin{itemize}
+    \item Led a team of designers and editors across branding and digital campaigns that drew \textbf{500K+ social media views}, setting priorities and review cycles so work shipped on event deadlines.
+\end{itemize}
+
+\end{document}
