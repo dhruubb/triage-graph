@@ -65,7 +65,8 @@ class Settings(BaseSettings):
     rate_limit_per_hour: int = 30
     max_ticket_chars: int = 4000
     max_log_chars: int = 8000
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = "http://localhost:5173"  # comma-separated exact origins
+    cors_origin_regex: str = ""  # optional, e.g. https://triage-graph(-[a-z0-9-]+)?\.vercel\.app for Vercel previews
     log_level: str = "INFO"
     frontend_dist: Path = ROOT / "frontend" / "dist"
     eval_results_path: Path = ROOT / "eval" / "results" / "latest.json"

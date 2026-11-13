@@ -33,9 +33,12 @@ RUN useradd --create-home --uid 10001 appuser \
  && chown -R appuser /tmp/triagegraph /opt/models
 USER appuser
 
+# Render (and most PaaS) inject PORT; default to 8000 for docker compose / Azure.
+ENV PORT=8000
 EXPOSE 8000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)" || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=90s \
+  CMD python -c "import os, urllib.request; urllib.request.urlopen('http://127.0.0.1:%s/api/health' % os.environ.get('PORT', '8000'), timeout=4)" || exit 1
 
 # One worker on purpose: paused runs live in the in-memory checkpointer.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*"]
+# Shell form so $PORT expands; exec keeps uvicorn as PID 1 for clean shutdowns.
+CMD exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips "*"

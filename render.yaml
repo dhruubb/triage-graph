@@ -1,0 +1,36 @@
+# Render Blueprint for the TriageGraph API (FastAPI + LangGraph).
+# Render dashboard → New → Blueprint → pick this repo. Values marked `sync: false`
+# are asked for once in the dashboard and never stored in git.
+services:
+  - type: web
+    name: triagegraph-api
+    runtime: docker
+    plan: free              # 512 MB / 0.1 CPU, sleeps after 15 min idle. "starter" = always on.
+    region: singapore       # closest Render region to India; pick your Qdrant Cloud region to match
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # ---- secrets (entered in the dashboard) ----
+      - key: GROQ_API_KEY
+        sync: false
+      - key: QDRANT_URL         # https://<cluster>.cloud.qdrant.io:6333 (leave empty for in-memory Qdrant)
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: CORS_ORIGINS       # your Vercel URL, e.g. https://triage-graph.vercel.app
+        sync: false
+      # ---- plain config ----
+      - key: CORS_ORIGIN_REGEX  # allows Vercel preview deployments of this project
+        value: https://triage-graph(-[a-z0-9-]+)?\.vercel\.app
+      - key: LLM_MODEL_FAST
+        value: openai/gpt-oss-20b
+      - key: LLM_MODEL_SMART
+        value: openai/gpt-oss-120b
+      - key: LLM_REASONING_EFFORT
+        value: low
+      - key: RATE_LIMIT_PER_HOUR
+        value: "30"
+      - key: LOG_LEVEL
+        value: INFO

@@ -108,7 +108,8 @@ tests/           unit, retrieval, graph and API tests with a scripted LLM
 
 ## Deployment
 
-See [DEPLOY.md](DEPLOY.md): GitHub Actions builds the image and pushes it to GHCR, and Azure Container Apps runs it with secrets injected as environment variables.
+- **Render (API) + Vercel (UI):** see [DEPLOY-RENDER-VERCEL.md](DEPLOY-RENDER-VERCEL.md). `render.yaml` is a ready Blueprint; the UI reads the API origin from `VITE_API_URL`.
+- **Azure Container Apps:** see [DEPLOY.md](DEPLOY.md). GitHub Actions builds the image and pushes it to GHCR, and Azure runs it with secrets injected as environment variables.
 
 ## Known limits and next steps
 

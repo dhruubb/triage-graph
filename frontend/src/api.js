@@ -1,5 +1,9 @@
 // Small API client. Triage runs stream Server-Sent Events over a POST, so we read the
 // response body ourselves instead of using EventSource (which only supports GET).
+//
+// VITE_API_URL is the backend's origin when the UI is hosted separately (e.g. Vercel UI +
+// Render API). Leave it unset when FastAPI serves the UI itself or in dev (Vite proxies /api).
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 
 async function errorMessage(res) {
   try {
@@ -14,13 +18,13 @@ async function errorMessage(res) {
 }
 
 export async function getJSON(url) {
-  const res = await fetch(url)
+  const res = await fetch(API_BASE + url)
   if (!res.ok) throw new Error(await errorMessage(res))
   return res.json()
 }
 
 export async function streamSSE(url, body, onEvent, signal) {
-  const res = await fetch(url, {
+  const res = await fetch(API_BASE + url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

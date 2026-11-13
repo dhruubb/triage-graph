@@ -9,3 +9,6 @@ frontend/dist/
 eval/results/partial.jsonl
 *.db
 .DS_Store
+.env.local
+.env.*.local
+.vercel

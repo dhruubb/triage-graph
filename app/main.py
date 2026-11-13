@@ -32,7 +32,8 @@ def create_app(settings: Settings | None = None, deps: Deps | None = None) -> Fa
 
     app = FastAPI(title="TriageGraph", version=__version__, lifespan=lifespan,
                   description="Multi-agent IT incident triage copilot (LangGraph + RAG + human-in-the-loop).")
-    app.add_middleware(CORSMiddleware, allow_origins=[o.strip() for o in settings.cors_origins.split(",") if o.strip()],
+    app.add_middleware(CORSMiddleware, allow_origins=[o.strip().rstrip("/") for o in settings.cors_origins.split(",") if o.strip()],
+                       allow_origin_regex=settings.cors_origin_regex or None,
                        allow_methods=["*"], allow_headers=["*"])
     app.include_router(router, prefix="/api")
     if settings.frontend_dist.exists():
