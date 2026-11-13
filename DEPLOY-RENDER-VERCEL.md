@@ -93,5 +93,5 @@ Save → Render redeploys. Then open the Vercel URL: the header chip should say 
 | Browser console: **CORS error** | The Vercel origin isn't in `CORS_ORIGINS` exactly (scheme + host, no path, no trailing slash) and doesn't match `CORS_ORIGIN_REGEX`. |
 | Render: **No open ports detected** | Make sure the deployed Dockerfile uses `--port ${PORT:-8000}` (it does after this change). |
 | `/api/health` shows `"provider": "not configured"` | `GROQ_API_KEY` missing on Render. |
-| Render boot crash mentioning Qdrant | `QDRANT_URL` must be `https://…cloud.qdrant.io:6333`, and the key must be a database key. |
+| Logs say `qdrant unreachable` / health shows `qdrant-embedded` with a `fallback_reason` | The app couldn't reach Qdrant Cloud and is running on an in-memory copy. Usually the free cluster was **suspended for inactivity** (after 1 week; deleted after 4): reactivate it in cloud.qdrant.io. Otherwise check `QDRANT_URL` is `https://…cloud.qdrant.io:6333` and the key is a database key, then redeploy. |
 | Evaluation tab: "No evaluation results yet" | Run `python -m eval.run` locally, commit `eval/results/latest.json`, push; Render redeploys. |

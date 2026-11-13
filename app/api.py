@@ -92,7 +92,8 @@ async def health(request: Request) -> dict:
                 "fast": s.llm_model_fast if s.llm_provider == "groq" else s.azure_deployment_fast,
                 "smart": s.llm_model_smart if s.llm_provider == "groq" else s.azure_deployment_smart},
         "vector_store": {"backend": deps.store.backend, "collection": deps.store.collection,
-                         "chunks": deps.store.count(), "embeddings": deps.store.dense.tag},
+                         "chunks": deps.store.count(), "embeddings": deps.store.dense.tag,
+                         **({"fallback_reason": deps.store.fallback_reason} if deps.store.fallback_reason else {})},
         "incidents": deps.db.count(),
         "auto_approve_max_risk": s.auto_approve_max_risk,
     }

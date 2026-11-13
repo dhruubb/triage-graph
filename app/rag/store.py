@@ -34,6 +34,7 @@ class RunbookStore:
         self.collection = f"{collection}_{dense.tag}"
         self.dense = dense
         self.sparse = sparse
+        self.fallback_reason = ""  # set when a remote Qdrant was unreachable and we fell back to in-memory
 
     @classmethod
     def connect(cls, url: str, api_key: str, collection: str, dense: DenseEmbedder,
